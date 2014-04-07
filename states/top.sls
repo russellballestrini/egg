@@ -8,6 +8,5 @@ base:
   'roles:salt-master':
     - match: grain
     - python.pip
-    - python.libcloud
-    - python.salt-cloud
+    - salt-cloud
 
