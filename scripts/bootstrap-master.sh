@@ -19,6 +19,7 @@ if [ $NEWMASTER = "localhost" ]
 then
   curl -o /root/salt/scripts/salt-bootstrap.sh -L http://bootstrap.saltstack.org
   sh /root/salt/scripts/salt-bootstrap.sh -M
+  echo "master: localhost" > /etc/salt/minion.d/minion.conf
   cat << EOF > /etc/salt/master.d/master.conf
 
 master: localhost
@@ -34,8 +35,10 @@ pillar_roots:
 EOF
   service salt-master restart
   service salt-minion restart
-  salt-key -A
-  salt '*' state.highstate
+  # sleep for a couple secs and wait for key to show up.
+  sleep 3
+  salt-key --yes --accept-all
+  salt \* state.highstate
 else
   rsync -a . root@$NEWMASTER:/root/salt/
   ssh root@$NEWMASTER 'bash /root/salt/scripts/bootstrap-master.sh localhost'
