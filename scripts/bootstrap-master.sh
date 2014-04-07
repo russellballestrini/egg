@@ -6,24 +6,34 @@
 # to /root/salt on the remotehost.  The second connection will invoke this 
 # script on the remotehost.
 
+USAGE="/bin/bash scripts/bootstrap-msater.sh <NEWMASTER IP/FQDN> [NEWMASTER ID]"
+
 NEWMASTER=$1
+NEWMASTERID=$2
 
 if [ -z "$NEWMASTER" ]
   then
-    echo "you must pass the NEWMASTER IP or FQDN."
+    echo $USAGE
     exit 1
 fi
-
+if [ -z "$NEWMASTERID" ]
+  then
+    NEWMASTERID=$NEWMASTER
+fi
 
 if [ $NEWMASTER = "localhost" ]
 then
+  # download salt-boostrap.sh script.
   curl -o /root/salt/scripts/salt-bootstrap.sh -L http://bootstrap.saltstack.org
+  # install both salt-minion and salt-master packages.
   sh /root/salt/scripts/salt-bootstrap.sh -M
-  echo "master: localhost" > /etc/salt/minion.d/minion.conf
+  # configure salt-minion.
+  cat << EOF > /etc/salt/minion.d/minion.conf
+id: $NEWMASTERID
+master: $NEWMASTER
+EOF
+  # configure salt-master.
   cat << EOF > /etc/salt/master.d/master.conf
-
-master: localhost
-
 file_roots:
   base:
     - /root/salt/states
@@ -31,15 +41,36 @@ file_roots:
 pillar_roots:
   base:
     - /root/salt/pillar-public
-
 EOF
+  # reload salt-master so new configuration is loaded.
   service salt-master restart
+  # reload salt-minion so new configuration is loaded.
   service salt-minion restart
-  # sleep for a couple secs and wait for key to show up.
-  sleep 3
-  salt-key --yes --accept-all
-  salt \* state.highstate
+
+  # loop until minion.pub exists or until timeout. 
+  TIMEOUT=90
+  COUNT=0
+  while [ ! -f /etc/salt/pki/master/minions_pre/$NEWMASTERID ]; do
+      echo "Waiting for $NEWMASTERID key to appear."
+      if [ "$COUNT" -ge "$TIMEOUT" ]; then
+          echo "Timeout while waiting for $NEWMASTERID key to appear."
+          exit 1
+      fi
+      sleep 3
+      COUNT=$((COUNT+3))
+  done
+
+  # make the salt-master auto-accept its own public key.
+  salt-key --yes --accept $NEWMASTERID
+
+  # run highstate to use config management to setup the rest!
+  echo "Calling highstate on Salt Master ..."
+  salt -l debug "$NEWMASTERID" test.ping
+  salt -l debug "$NEWMASTERID" state.highstate
+  echo "The Salt Master has been setup!"
+  exit 0
+
 else
-  rsync -a . root@$NEWMASTER:/root/salt/
-  ssh root@$NEWMASTER 'bash /root/salt/scripts/bootstrap-master.sh localhost'
+  rsync -rlptD . root@$NEWMASTER:/root/salt/
+  ssh root@$NEWMASTER "bash /root/salt/scripts/bootstrap-master.sh localhost $NEWMASTERID"
 fi
