@@ -1,0 +1,10 @@
+# TODO: we need to put some values in pillar, but not all.
+#       is this overkill?
+{% for provider, details in salt['pillar.get']('salt-cloud:providers', {}) %}
+{{ provider }}:
+  provider: {{ details.get('provider_name', '') }}
+  client_key: {{ details.get('client_key', '') }}
+  api_key: {{ details.get('api_key', '') }}
+  ssh_key_file: {{ salt['pillar.get']('salt-cloud:ssh_key_file', '') }}
+  ssh_key_name: {{ salt['pillar.get']('salt-cloud:ssh_key_name', '') }}
+{% endfor %}

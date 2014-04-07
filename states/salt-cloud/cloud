@@ -1,0 +1,3 @@
+# new minions spawned with salt-cloud need to know where to phone home.
+minion:
+  master: {{ salt['pillar.get']('salt-cloud:master', '') }}
