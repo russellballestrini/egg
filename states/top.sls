@@ -7,5 +7,7 @@ base:
   # target all minions with the salt-master role.
   'roles:salt-master':
     - match: grain
+    - python.pip
+    - python.libcloud
     - python.salt-cloud
 
