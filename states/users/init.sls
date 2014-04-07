@@ -16,7 +16,7 @@
     - shell: /bin/bash
     - home: /home/{{ username }}
     - uid: {{ details.get('uid', '') }}
-    - gid: {{ detials.get('gid', '') }}
+    - gid: {{ details.get('gid', '') }}
     - crypt: {{ details.get('crypt','') }}
     {% if 'groups' in details %}
     - groups:

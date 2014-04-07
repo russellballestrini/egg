@@ -1,5 +1,5 @@
-python salt-cloud package:
+python-salt-cloud:
   pip.installed:
     - name: salt-cloud
     - require:
-      - pkg: python libcloud package
+      - pip: python-libcloud

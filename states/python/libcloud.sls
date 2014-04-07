@@ -1,5 +1,5 @@
-python libcloud package:
+python-libcloud:
   pip.installed:
     - name: apache-libcloud
     - require:
-      - pkg: python pip package
+      - pkg: python-pip
