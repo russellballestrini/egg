@@ -32,8 +32,9 @@ then
 id: $NEWMASTERID
 master: $NEWMASTER
 EOF
-  # configure salt-master.
-  cat << EOF > /etc/salt/master.d/master.conf
+  # configure salt-master. centos doesn't have /etc/salt/master.d?
+  #cat << EOF > /etc/salt/master.d/master.conf
+  cat << EOF > /etc/salt/master
 file_roots:
   base:
     - /root/salt/states
@@ -71,6 +72,6 @@ EOF
   exit 0
 
 else
-  rsync -rlptD . root@$NEWMASTER:/root/salt/
+  scp -rq . root@$NEWMASTER:/root/salt/
   ssh root@$NEWMASTER "bash /root/salt/scripts/bootstrap-master.sh localhost $NEWMASTERID"
 fi
