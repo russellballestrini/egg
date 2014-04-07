@@ -1,0 +1,10 @@
+users:
+
+ rballestrini
+   fullname: Russell Ballestrini
+   uid: 1001
+   gid: 1001
+   groups:
+     - sudo
+   pub_ssh_keys:
+     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDR7XjGoxvZ0NDZYVLdFzh4NnrmrCD8vos08K5qmjXoQ3ERieIxZEGFik96cmUMWhkzqd2yglIvxjlwaQM/jQVB+uMBdaIJeKNeRE/nij5K4NvhmI5/E4EWCZce4rsDdcT/3LMLEOwifPYScnbIN1eUT4QvOUOYKoDxrOQpf3CqcyAgxa/sI/2sMPof9/JMbgv5g1U/NUJrJWIWt8hHHjPnmUXHgTatSkpv8ZlVb4DJvcOpRMHh5x+IZcYlmcczlvkvq/T2cP59yyfdqZJq9tZz14iikFDIL5P46+88wJFOcpqB2BbsP+y5HbzpOV1E1KWtJeNQoTpf8Dh3QpodUKj445fqTdz/Bn35h89LdDzQ4QDvMj8ZV5zO+1xTwwzb8BLlrCRxePQfcua+XWTRRfUuzTtCgrhvbS5EQzjdd4/60XTekYCnEUYAtxdX4cGraX2ZVr44YSk9hee/ZST7hiDJmN+9vlg5cdvP6yW86KFDtxySXtha24A5m0KFcBnYvQfUWjNiA2u207XxUP9CUyO/QvB96TGnyuVzPwhD/v7fmJe1xbRwEC6iY12NG0tk9f/3dxa6RX4m5Qs2TFuGB9ENNHhivlcKYba1wH96Yr0SMsc8HxHdIoqjFZTokhuO47nbjD+RHJUMycmb/pUNwRG0hBNfJfEAdDo8sFZVnQ8qfQ== rballestrini@egg
