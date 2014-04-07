@@ -31,7 +31,7 @@ installed locally, and this directory will be copied to /root/salt
 (the location of the Salt file_roots and pillar_roots).
 
 If NEWMASTER is a  *remote-host*  this script will create two SSH connections
-to the remote host as root user. The first connection will SCP this directory
+to the remote-host as root user. The first connection will SCP this directory
 to remote-host:/root/salt. The second connection will fire this script off on
 the remote-host.
 
