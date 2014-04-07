@@ -1,31 +1,30 @@
 #!/bin/bash
 #
-# This script expects to run as root.  It can provision a Salt Master on 
-# localhost or on a remotehost.  If a remotehost is given, we will make
-# two SSH connections as root.  The first connection will rsync this directory
-# to /root/salt on the remotehost.  The second connection will invoke this 
-# script on the remotehost.
+# This script expects to run as root. It may be used to provision a Salt
+# Master on remote or localhost. If a remote host is given, we will make
+# two SSH connections as root. The first connection will scp this directory
+# to /root/salt on the remote host. The second connection will invoke this 
+# script on the remote host.
 
 USAGE="/bin/bash scripts/bootstrap-master.sh <NEWMASTER IP/FQDN> [NEWMASTER ID]"
 
 NEWMASTER=$1
 NEWMASTERID=$2
 
-if [ -z "$NEWMASTER" ]
-  then
-    echo $USAGE
-    exit 1
-fi
-if [ -z "$NEWMASTERID" ]
-  then
-    NEWMASTERID=$NEWMASTER
+if [ -z "$NEWMASTER" ]; then
+  echo $USAGE; exit 1;
 fi
 
-if [ $NEWMASTER = "localhost" ]
-then
-  # download salt-boostrap.sh script.
+if [ -z "$NEWMASTERID" ]; then
+  NEWMASTERID=$NEWMASTER
+fi
+
+if ! [ $NEWMASTER = "localhost" ]; then
+  scp -rq . root@$NEWMASTER:/root/salt/
+  ssh root@$NEWMASTER "bash /root/salt/scripts/bootstrap-master.sh localhost $NEWMASTERID"
+else
+  # download salt-boostrap.sh script and install salt-minion and salt-master.
   curl -o /root/salt/scripts/salt-bootstrap.sh -L http://bootstrap.saltstack.org
-  # install both salt-minion and salt-master packages.
   sh /root/salt/scripts/salt-bootstrap.sh -M
   # configure salt-minion.
   cat << EOF > /etc/salt/minion.d/minion.conf
@@ -64,14 +63,10 @@ EOF
   # make the salt-master auto-accept its own public key.
   salt-key --yes --accept $NEWMASTERID
 
-  # run highstate to use config management to setup the rest!
+  # run highstate, config management will setup the rest!
   echo "Calling highstate on Salt Master ..."
   salt -l debug "$NEWMASTERID" test.ping
   salt -l debug "$NEWMASTERID" state.highstate
   echo "The Salt Master has been setup!"
   exit 0
-
-else
-  scp -rq . root@$NEWMASTER:/root/salt/
-  ssh root@$NEWMASTER "bash /root/salt/scripts/bootstrap-master.sh localhost $NEWMASTERID"
 fi
