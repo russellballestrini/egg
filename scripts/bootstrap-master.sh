@@ -30,6 +30,9 @@ else
   cat << EOF > /etc/salt/minion.d/minion.conf
 id: $NEWMASTERID
 master: $NEWMASTER
+grains:
+  roles:
+    - salt-master
 EOF
   # configure salt-master. centos doesn't have /etc/salt/master.d?
   #cat << EOF > /etc/salt/master.d/master.conf
