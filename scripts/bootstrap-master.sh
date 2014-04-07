@@ -6,7 +6,7 @@
 # to /root/salt on the remotehost.  The second connection will invoke this 
 # script on the remotehost.
 
-USAGE="/bin/bash scripts/bootstrap-msater.sh <NEWMASTER IP/FQDN> [NEWMASTER ID]"
+USAGE="/bin/bash scripts/bootstrap-master.sh <NEWMASTER IP/FQDN> [NEWMASTER ID]"
 
 NEWMASTER=$1
 NEWMASTERID=$2
@@ -47,10 +47,10 @@ EOF
   # reload salt-minion so new configuration is loaded.
   service salt-minion restart
 
-  # loop until minion.pub exists or until timeout. 
+  # loop NEWMASTERID appears in salt-key or exit script after timeout.
   TIMEOUT=90
   COUNT=0
-  while [ ! -f /etc/salt/pki/master/minions_pre/$NEWMASTERID ]; do
+  while ! [ $(salt-key -L | grep -m 1 "$NEWMASTERID") ]; do
       echo "Waiting for $NEWMASTERID key to appear."
       if [ "$COUNT" -ge "$TIMEOUT" ]; then
           echo "Timeout while waiting for $NEWMASTERID key to appear."
