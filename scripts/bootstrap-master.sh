@@ -16,19 +16,27 @@ fi
 
 
 if [ $NEWMASTER = "localhost" ]
-  then
-    curl -o /root/salt/scripts/salt-bootstrap.sh -L http://bootstrap.saltstack.org
-    sh /root/salt/scripts/salt-bootstrap.sh -M
-    cat << EOF > /etc/salt/master.d/roots.conf
+then
+  curl -o /root/salt/scripts/salt-bootstrap.sh -L http://bootstrap.saltstack.org
+  sh /root/salt/scripts/salt-bootstrap.sh -M
+  cat << EOF > /etc/salt/master.d/master.conf
+
+master: localhost
 
 file_roots:
-  - /root/salt/states
+  base:
+    - /root/salt/states
 
 pillar_roots:
-  - /root/salt/pillar-public
+  base:
+    - /root/salt/pillar-public
 
 EOF
+  service salt-master restart
+  service salt-minion restart
+  salt-key -A
+  salt '*' state.highstate
 else
-  rsync -a ../ root@$NEWMASTER:/root/salt/
+  rsync -a . root@$NEWMASTER:/root/salt/
   ssh root@$NEWMASTER 'bash /root/salt/scripts/bootstrap-master.sh localhost'
 fi

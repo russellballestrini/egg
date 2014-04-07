@@ -1,6 +1,6 @@
 users:
 
- rballestrini
+ rballestrini:
    fullname: Russell Ballestrini
    uid: 1001
    gid: 1001
