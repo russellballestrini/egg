@@ -27,7 +27,7 @@ salt-cloud-conf:
 # salt-cloud provider configuration file
 salt-cloud-providers-conf:
   file.managed:
-    - name: /etc/salt/cloud.profiles
+    - name: /etc/salt/cloud.providers
     - source: salt://salt-cloud/cloud.providers
     - mode: 644
     - user: root

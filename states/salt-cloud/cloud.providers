@@ -1,6 +1,6 @@
 # TODO: we need to put some values in pillar, but not all.
 #       is this overkill?
-{% for provider, details in salt['pillar.get']('salt-cloud:providers', {}) %}
+{% for provider, details in salt['pillar.get']('salt-cloud:providers', {}).items() %}
 {{ provider }}:
   provider: {{ details.get('provider_name', '') }}
   client_key: {{ details.get('client_key', '') }}
