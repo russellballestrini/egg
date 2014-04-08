@@ -4,11 +4,17 @@
 #
 # EXAMPLE:
 #
-minion:
-  master: master.yohdah.com
-  append_domain: yohdah.com
-
-delete_sshkeys: True
-delete_ssh_keys: True
-display_ssh_output: False
-
+#minion:
+#  master: master.yohdah.com
+#  append_domain: yohdah.com
+#
+# MISC:
+#
+# clean up known_hosts
+#
+#delete_sshkeys: True
+#delete_ssh_keys: True
+#
+# prevent ssh output to stdout
+#
+#display_ssh_output: False
