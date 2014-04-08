@@ -44,6 +44,7 @@ file_roots:
 pillar_roots:
   base:
     - /root/salt/pillar
+    - /root/salt/pillar-private
 EOF
   # reload salt-master so new configuration is loaded.
   service salt-master restart
