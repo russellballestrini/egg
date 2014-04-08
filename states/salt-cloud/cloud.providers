@@ -4,9 +4,9 @@
 #
 # Example:
 #
-#do:
-#  provider: digital_ocean
-#  client_key: MyClientKeyLiftedFromDashboard
-#  api_key: MyAPIKeyLiftedFromDashboard
-#  ssh_key_file: /keys/digital-ocean-salt-cloud
-#  ssh_key_name: digital-ocean-salt-cloud.pub
+do:
+  provider: digital_ocean
+  client_key: {{ salt['pillar.get']('salt-cloud:do:client_key') }}
+  api_key: {{ salt['pillar.get']('salt-cloud:do:api_key') }}
+  ssh_key_file: {{ salt['pillar.get']('salt-cloud:do:ssh_key_file') }}
+  ssh_key_name: {{ salt['pillar.get']('salt-cloud:do:ssh_key_name') }}

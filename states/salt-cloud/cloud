@@ -4,6 +4,11 @@
 #
 # EXAMPLE:
 #
-#minion:
-#  master: master.yohdah.com
-#  append_domain: yohdah.com
+minion:
+  master: master.yohdah.com
+  append_domain: yohdah.com
+
+delete_sshkeys: True
+delete_ssh_keys: True
+display_ssh_output: False
+
