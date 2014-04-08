@@ -1,3 +1,9 @@
-# new minions spawned with salt-cloud need to know where to phone home.
-minion:
-  master: {{ salt['pillar.get']('salt-cloud:master', '') }}
+# New minions spawned with salt-cloud need to know where to phone home.
+#
+# http://salt-cloud.readthedocs.org/en/latest/topics/config.html
+#
+# EXAMPLE:
+#
+#minion:
+#  master: master.yohdah.com
+#  append_domain: yohdah.com

@@ -1,10 +1,12 @@
-# TODO: we need to put some values in pillar, but not all.
-#       is this overkill?
-{% for provider, details in salt['pillar.get']('salt-cloud:providers', {}).items() %}
-{{ provider }}:
-  provider: {{ details.get('provider_name', '') }}
-  client_key: {{ details.get('client_key', '') }}
-  api_key: {{ details.get('api_key', '') }}
-  ssh_key_file: {{ salt['pillar.get']('salt-cloud:ssh_key_file', '') }}
-  ssh_key_name: {{ salt['pillar.get']('salt-cloud:ssh_key_name', '') }}
-{% endfor %}
+# Define your desired providers in this file.
+#
+# http://salt-cloud.readthedocs.org/en/latest/topics/config.html
+#
+# Example:
+#
+#do:
+#  provider: digital_ocean
+#  client_key: MyClientKeyLiftedFromDashboard
+#  api_key: MyAPIKeyLiftedFromDashboard
+#  ssh_key_file: /keys/digital-ocean-salt-cloud
+#  ssh_key_name: digital-ocean-salt-cloud.pub

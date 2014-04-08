@@ -1,6 +1,12 @@
-do-micro-ubuntu-12-04:
-  provider: do
-  image: Ubuntu 12.04 x64
-  size: 512MB
-  script: Ubuntu
-  location: New York 1
+# Define your desired cloud profiles in this file.
+#
+# http://salt-cloud.readthedocs.org/en/latest/topics/config.html
+#
+# Example:
+#
+#do-micro-ubuntu-12-04:
+#  provider: do
+#  image: Ubuntu 12.04 x64
+#  size: 512MB
+#  script: Ubuntu
+#  location: New York 1

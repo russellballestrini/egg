@@ -10,8 +10,8 @@ addition to a script to bootstrap a new Salt Master with all the goodies.
 What comes first?
 =================
 
-To start things off, we need a Salt Master. Checkout this repo on your
-workstation and from the root of the repo, run:
+To start things off, we need a Salt Master. Fork this repo and check
+it out on your workstation. From the root of the repo checkout, run:
 
     .. code-block:: bash
 
@@ -43,3 +43,24 @@ Real world example used to stand-up a Salt Master on remote Ubuntu host:
 
 The script does the least amount possible using Bash. Its goal is to setup
 the salt cluster and make Salt itself configure the rest.
+
+What next?
+==========
+
+Well now we have a salt-master.  Your next task should be using salt-cloud
+to launch a few cloud minions.  To get started, customize the configuration
+files in `egg/states/salt-cloud`.  We give some examples in the comments,
+for more details review:
+
+ http://salt-cloud.readthedocs.org/en/latest/topics/config.html
+
+As you can see these files are in config management, so make changes and
+run highstate on the salt-master.  
+
+    .. code-block:: bash
+
+     salt 'MASTERID' state.highstate
+
+Once you have that all configured for your desired cloud provider, run a 
+salt-cloud execution to lauch a new minion.
+
